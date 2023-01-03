@@ -3,7 +3,7 @@
 // <Link>はaタグのようなものでページ遷移を表現する。toに遷移するアドレスを設定する
 // コンポーネントの出しわけはSwitch、ルートの設定はRouteを使用する
 import { BrowserRouter, Link } from "react-router-dom";
-import { Router } from "./router/router";
+import { Router } from "./router/Router";
 
 import "./styles.css";
 
