@@ -2,8 +2,8 @@
 import { Switch, Route } from "react-router-dom";
 
 import { Home } from "../Home";
-import { Page2 } from "../Page2";
 import { Page1Routes } from "./Page1Routes";
+import { Page2Routes } from "./Page2Routes";
 
 export const Router = () => {
   return (
@@ -24,6 +24,18 @@ export const Router = () => {
             // この中の、match.urlを使えばわざわざpage1を下層ページ文書く必要がなくなる
             // console.log(props)
             //   console.log(url)
+            // 切り出す際に、何が違うか？を考える。（path/exact/レンダリングするコンポーネント）
+            //   <Switch>
+            //     <Route exact path={url}>
+            //       <Page1 />
+            //     </Route>
+            //     <Route path={`${url}/detail-a`}>
+            //       <Page1DetailA />
+            //     </Route>
+            //     <Route path={`${url}/detail-b`}>
+            //       <Page1DetailB />
+            //     </Route>
+            //   </Switch>
             <Switch>
                 {Page1Routes.map((route) => (
                     <Route
@@ -35,24 +47,24 @@ export const Router = () => {
                     </Route>
                 ))}
             </Switch>
-        // 切り出す際に、何が違うか？を考える。（path/exact/レンダリングするコンポーネント）
-        //   <Switch>
-        //     <Route exact path={url}>
-        //       <Page1 />
-        //     </Route>
-        //     <Route path={`${url}/detail-a`}>
-        //       <Page1DetailA />
-        //     </Route>
-        //     <Route path={`${url}/detail-b`}>
-        //       <Page1DetailB />
-        //     </Route>
-        //   </Switch>
         )}
       />
-      {/* パスが`/page2`だったら、Page2コンポーネントを表示させる */}
-      <Route path="/page2">
-        <Page2 />
-      </Route>
+      <Route
+        path="/page2"
+        render={({match:{ url }}) => (
+            <Switch>
+                {Page2Routes.map((route) => (                
+                    <Route 
+                        key={route.path}
+                        exact={route.exact}
+                        path={`${url}${route.path}`}
+                    >
+                        {route.children}
+                    </Route>
+                ))}
+            </Switch>
+        )}
+      />
     </Switch>
   );
 };
